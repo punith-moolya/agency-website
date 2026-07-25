@@ -72,13 +72,36 @@ function FloatingCube({ size, top, left, delay, duration, rotate = 0 }: { size: 
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sent">("idle");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("sent");
-    // Reset after 4 seconds for demo purposes
-    setTimeout(() => setStatus("idle"), 4000);
-  }
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  e.preventDefault();
 
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch("https://formspree.io/f/xpqvoypy", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (response.ok) {
+      setStatus("sent");
+
+      form.reset();
+
+      setTimeout(() => {
+        setStatus("idle");
+      }, 5000);
+    } else {
+      alert("Failed to send message.");
+    }
+  } catch (error) {
+    alert("Something went wrong. Please try again.");
+  }
+}
   return (
     <section id="contact" className="relative py-24 md:py-32 bg-transparent overflow-hidden">
       {/* Ambient Background Glow */}
