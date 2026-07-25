@@ -249,17 +249,59 @@ export const teamMembers = [
     role: "Content Creator",
   },
 ] as const;
-
 export const values = [
-  { icon: Lightbulb, title: "Creativity" },
-  { icon: Rocket, title: "Innovation" },
-  { icon: ShieldCheck, title: "Integrity" },
-  { icon: HandHeart, title: "Collaboration" },
-  { icon: Trophy, title: "Excellence" },
-  { icon: Target, title: "Client Success" },
-  { icon: GraduationCap, title: "Continuous Learning" },
-  { icon: Flame, title: "Passion" },
+  { 
+    icon: Lightbulb, 
+    title: "Creativity",
+    description: "We embrace bold ideas and think outside the box to craft unique, memorable solutions."
+  },
+  { 
+    icon: Rocket, 
+    title: "Innovation",
+    description: "We constantly push boundaries, leveraging new technologies and methods to keep your brand ahead."
+  },
+  { 
+    icon: ShieldCheck, 
+    title: "Integrity",
+    description: "We build lasting trust through transparency, honesty, and unwavering ethical standards."
+  },
+  { 
+    icon: HandHeart, 
+    title: "Collaboration",
+    description: "We believe the best results come from working closely with our clients as true, dedicated partners."
+  },
+  { 
+    icon: Trophy, 
+    title: "Excellence",
+    description: "We are committed to delivering the highest quality in every pixel, word, and strategy we produce."
+  },
+  { 
+    icon: Target, 
+    title: "Client Success",
+    description: "Your growth is our ultimate metric of success. We align our goals directly with yours."
+  },
+  { 
+    icon: GraduationCap, 
+    title: "Continuous Learning",
+    description: "We stay curious and constantly evolve our skills to meet the demands of a rapidly changing digital world."
+  },
+  { 
+    icon: Flame, 
+    title: "Passion",
+    description: "We pour our energy and dedication into every project, because we truly love what we do."
+  },
 ];
+
+// export const values = [
+//   { icon: Lightbulb, title: "Creativity" },
+//   { icon: Rocket, title: "Innovation" },
+//   { icon: ShieldCheck, title: "Integrity" },
+//   { icon: HandHeart, title: "Collaboration" },
+//   { icon: Trophy, title: "Excellence" },
+//   { icon: Target, title: "Client Success" },
+//   { icon: GraduationCap, title: "Continuous Learning" },
+//   { icon: Flame, title: "Passion" },
+// ];
 
 export const navLinks = [
   { label: "About", href: "#about" },
