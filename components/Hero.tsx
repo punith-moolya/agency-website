@@ -1,7 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+
+// Create a motion-enabled Link component for smooth Next.js routing
+const MotionLink = motion(Link);
 
 /* ─────────────────────────────────────────────
    Animation Variants
@@ -43,7 +47,7 @@ const serviceItemVariants = {
 };
 
 /* ─────────────────────────────────────────────
-   Service Item
+   Service Item (Arrow Removed)
    ───────────────────────────────────────────── */
 const services = [
   { label: "Website Development", icon: "◈" },
@@ -56,29 +60,16 @@ function ServiceItem({ label, icon }: { label: string; icon: string }) {
   return (
     <motion.div
       variants={serviceItemVariants}
-      whileHover={{ x: 4, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
+      whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}
       transition={{ duration: 0.25 }}
-      className="group relative flex items-center justify-between rounded-sm px-3 py-3 cursor-pointer transition-colors"
+      className="group relative flex items-center gap-3 rounded-sm px-3 py-3 cursor-pointer transition-colors"
     >
-      <div className="relative flex items-center gap-3">
-        <span className="text-white/60 text-sm transition-colors duration-300 group-hover:text-white">
-          {icon}
-        </span>
-        <span className="text-sm font-medium text-white/70 transition-colors duration-300 group-hover:text-white">
-          {label}
-        </span>
-      </div>
-      <motion.svg
-        className="relative h-4 w-4 text-white/40 transition-colors duration-300 group-hover:text-white"
-        whileHover={{ x: 4 }}
-        transition={{ duration: 0.2 }}
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-      </motion.svg>
+      <span className="text-white/60 text-sm transition-colors duration-300 group-hover:text-white">
+        {icon}
+      </span>
+      <span className="text-sm font-medium text-white/70 transition-colors duration-300 group-hover:text-white">
+        {label}
+      </span>
     </motion.div>
   );
 }
@@ -108,7 +99,7 @@ export default function Hero() {
         className="relative overflow-hidden rounded-[32px] min-h-[80vh] flex flex-col justify-center"
         style={{ scale, opacity }}
       >
-        {/* VIDEO BACKGROUND - No overlays */}
+        {/* VIDEO BACKGROUND */}
         <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale }}>
           <video
             autoPlay
@@ -117,7 +108,6 @@ export default function Hero() {
             playsInline
             preload="auto"
             className="h-full w-full object-cover"
-            poster="/images/hero-poster.jpg"
           >
             <source src="/videos/hero9.mp4" type="video/mp4" />
           </video>
@@ -170,6 +160,7 @@ export default function Hero() {
               We craft high-performance digital experiences that drive measurable growth and leave lasting impressions.
             </motion.p>
 
+            {/* CTA BUTTONS */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -177,10 +168,12 @@ export default function Hero() {
               variants={fadeUpVariants}
               className="flex flex-wrap items-center gap-4"
             >
-              <motion.button
+              {/* Button 1: Goes to Contact Section */}
+              <MotionLink
+                href="#contact"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="group relative overflow-hidden rounded-sm bg-white px-7 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-white/90"
+                className="group relative overflow-hidden rounded-sm bg-white px-7 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-white/90 inline-flex items-center"
               >
                 <span className="relative flex items-center gap-2">
                   Start Your Project
@@ -188,15 +181,17 @@ export default function Hero() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
-              </motion.button>
+              </MotionLink>
 
-              <motion.button
+              {/* Button 2: Goes to Services Section */}
+              <MotionLink
+                href="#services"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="rounded-sm border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:border-white/50"
+                className="rounded-sm border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:border-white/50 inline-block text-center"
               >
                 View Our Work
-              </motion.button>
+              </MotionLink>
             </motion.div>
           </motion.div>
 
@@ -223,16 +218,18 @@ export default function Hero() {
 
               <div className="my-4 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-              <motion.button
+              {/* Get Started Button (Arrow kept here) */}
+              <MotionLink
+                href="#contact"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2, duration: 0.5 }}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full rounded-sm border border-white/20 bg-white/10 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-white/20 hover:border-white/30"
+                className="w-full flex items-center justify-center rounded-sm border border-white/20 bg-white/10 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-white/20 hover:border-white/30"
               >
                 Get Started →
-              </motion.button>
+              </MotionLink>
             </div>
           </motion.div>
 

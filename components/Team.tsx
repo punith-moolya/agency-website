@@ -4,10 +4,10 @@ import { useCallback, useRef } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { ChevronLeft, ChevronRight, Instagram, Linkedin, Globe } from "lucide-react";
+import { ChevronLeft, ChevronRight, Instagram, Linkedin, Facebook, Twitter, Globe } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { team } from "@/lib/content"; // Import your new team array here
+import { team } from "@/lib/content";
 
 export function Team() {
   const autoplay = useRef(
@@ -51,69 +51,63 @@ export function Team() {
 
         <div className="mt-14 overflow-hidden" ref={emblaRef}>
           <div className="flex -ml-5">
-            {team.map((member) => (
-              <div
-                key={member.id}
-                className="min-w-0 flex-[0_0_78%] pl-5 sm:flex-[0_0_46%] lg:flex-[0_0_29%]"
-              >
-                <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-black">
-                  <Image
-                    src={member.image} // <-- Directly using the image path from your array
-                    alt={member.name}
-                    fill
-                    sizes="(max-width: 640px) 78vw, (max-width: 1024px) 46vw, 29vw"
-                    className="object-cover grayscale transition-all duration-500 ease-out group-hover:scale-105 group-hover:grayscale-0"
-                  />
-                  
-                  {/* Social Icons Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-3 bg-gradient-to-t from-black/80 via-black/20 to-transparent pb-6 opacity-0 transition-all duration-300 group-hover:opacity-100">
-                    {member.socials?.linkedin && (
-                      <a
-                        href={member.socials.linkedin}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`${member.name} on LinkedIn`}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#4DA8FF]/30 bg-black/60 text-[#4DA8FF] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#4DA8FF]/10 hover:shadow-[0_0_15px_rgba(77,168,255,0.3)]"
-                      >
-                        <Linkedin size={15} />
-                      </a>
-                    )}
-                    {member.socials?.instagram && (
-                      <a
-                        href={member.socials.instagram}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`${member.name} on Instagram`}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#4DA8FF]/30 bg-black/60 text-[#4DA8FF] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#4DA8FF]/10 hover:shadow-[0_0_15px_rgba(77,168,255,0.3)]"
-                      >
-                        <Instagram size={15} />
-                      </a>
-                    )}
-                    {member.socials?.twitter && (
-                      <a
-                        href={member.socials.twitter}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`${member.name} on Twitter`}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#4DA8FF]/30 bg-black/60 text-[#4DA8FF] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#4DA8FF]/10 hover:shadow-[0_0_15px_rgba(77,168,255,0.3)]"
-                      >
-                        <Globe size={15} /> {/* Using Globe as a generic fallback for Twitter/X */}
-                      </a>
+            {team.map((member) => {
+              // Dynamically build an array of ONLY the social links that exist for this member
+              const activeSocials = [
+                { icon: Linkedin, href: member.socials?.linkedin, label: "LinkedIn" },
+                { icon: Instagram, href: member.socials?.instagram, label: "Instagram" },
+                { icon: Facebook, href: member.socials?.facebook, label: "Facebook" },
+                { icon: Twitter, href: member.socials?.twitter, label: "Twitter" },
+                { icon: Globe, href: member.socials?.website, label: "Website" },
+              ].filter((social) => social.href); // This removes any undefined/null links
+
+              return (
+                <div
+                  key={member.id}
+                  className="min-w-0 flex-[0_0_78%] pl-5 sm:flex-[0_0_46%] lg:flex-[0_0_29%]"
+                >
+                  <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-black">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 640px) 78vw, (max-width: 1024px) 46vw, 29vw"
+                      className="object-cover grayscale transition-all duration-500 ease-out group-hover:scale-105 group-hover:grayscale-0"
+                    />
+                    
+                    {/* Social Icons Overlay - Only renders if activeSocials has items */}
+                    {activeSocials.length > 0 && (
+                      <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-3 bg-gradient-to-t from-black/80 via-black/20 to-transparent pb-6 opacity-0 transition-all duration-300 group-hover:opacity-100">
+                        {activeSocials.map((social) => {
+                          const Icon = social.icon;
+                          return (
+                            <a
+                              key={social.label}
+                              href={social.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              aria-label={`${member.name} on ${social.label}`}
+                              className="flex h-9 w-9 items-center justify-center rounded-full border border-[#4DA8FF]/30 bg-black/60 text-[#4DA8FF] backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#4DA8FF]/10 hover:shadow-[0_0_15px_rgba(77,168,255,0.3)]"
+                            >
+                              <Icon size={15} />
+                            </a>
+                          );
+                        })}
+                      </div>
                     )}
                   </div>
+                  
+                  <h3 className="mt-4 font-display text-base font-bold text-white md:text-lg">
+                    {member.name}
+                  </h3>
+                  <p className="mt-1 text-sm text-[#A1A1AA]">{member.role}</p>
+                  
+                  {member.bio && (
+                    <p className="mt-2 text-xs text-[#71717A] line-clamp-2">{member.bio}</p>
+                  )}
                 </div>
-                
-                <h3 className="mt-4 font-display text-base font-bold text-white md:text-lg">
-                  {member.name}
-                </h3>
-                <p className="mt-1 text-sm text-[#A1A1AA]">{member.role}</p>
-                
-                {/* Optional: Show bio if it exists */}
-                {member.bio && (
-                  <p className="mt-2 text-xs text-[#71717A] line-clamp-2">{member.bio}</p>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </Container>

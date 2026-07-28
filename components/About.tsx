@@ -1,8 +1,12 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
+
+// Create a motion-enabled Link component for smooth Next.js routing
+const MotionLink = motion(Link);
 
 /* ─────────────────────────────────────────────
    Constants
@@ -92,8 +96,7 @@ function Cube({ size, top, left, delay, duration, rotate = 0 }: CubeProps) {
           ease: "easeInOut",
           delay,
         }}
-        // Adapted for dark mode: subtle white tint, glowing blue border
-        className="relative rounded-2xl border border-[#4DA8FF]/30  backdrop-blur-xl shadow-[0_8px_32px_rgba(77,168,255,0.15)]"
+        className="relative rounded-2xl border border-[#4DA8FF]/30 backdrop-blur-xl shadow-[0_8px_32px_rgba(77,168,255,0.15)]"
       >
         {/* Inner glow */}
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#4DA8FF]/10 to-transparent" />
@@ -139,7 +142,7 @@ function ShimmerHeading() {
         transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="relative block"
       >
-        {/* Animated gradient text - KEPT EXACTLY AS REQUESTED */}
+        {/* Animated gradient text */}
         <span
           className="bg-[length:200%_100%] bg-clip-text text-transparent"
           style={{
@@ -190,7 +193,6 @@ function StatCard({ value, label, index }: { value: string; label: string; index
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6, boxShadow: `0 20px 40px rgba(77,168,255,0.15)` }}
-      // Adapted for dark mode: glassmorphism on black
       className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 shadow-[0_4px_20px_rgba(0,0,0,0.3)] transition-shadow duration-500"
     >
       {/* Blue glow sweep — triggers when in view */}
@@ -239,14 +241,14 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative overflow-hidden bg-transparent" // Transparent to show global black grid
+      className="relative overflow-hidden bg-transparent"
     >
       {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
           PART 1 — HERO-STYLE INTRO
           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
       <div className="relative flex min-h-[90vh] items-center justify-center px-6 py-24">
         
-        {/* Background: faint blue radial glow (looks amazing on black) */}
+        {/* Background: faint blue radial glow */}
         <div
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
@@ -299,7 +301,7 @@ export default function About() {
             that don't just compete — they lead.
           </motion.p>
 
-          {/* CTA Button */}
+          {/* CTA Button - NOW LINKS TO STORY SECTION */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -307,7 +309,8 @@ export default function About() {
             transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="mt-12"
           >
-            <motion.button
+            <MotionLink
+              href="#story"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white px-7 py-3.5 text-sm font-semibold text-black shadow-[0_4px_20px_rgba(255,255,255,0.1)] transition-all duration-300 hover:border-[#4DA8FF]/60 hover:bg-[#4DA8FF]/10 hover:text-white hover:shadow-[0_8px_30px_rgba(77,168,255,0.25)]"
@@ -322,7 +325,7 @@ export default function About() {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </motion.button>
+            </MotionLink>
           </motion.div>
         </div>
       </div>

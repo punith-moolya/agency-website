@@ -18,15 +18,24 @@ export function OurStory() {
   });
 
   // The navigation line fills as you scroll through the section
-  const lineProgress = useTransform(scrollYProgress, [0.15, 0.85], ["0%", "100%"]);
-  
+  const lineProgress = useTransform(
+    scrollYProgress,
+    [0.15, 0.85],
+    ["0%", "100%"],
+  );
+
   // Ambient background glows
-  const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.25, 0.1]);
+  const glowOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [0, 0.25, 0.1],
+  );
   const glowScale = useTransform(scrollYProgress, [0, 1], [0.8, 1.2]);
 
   return (
-    <section 
-      ref={sectionRef} 
+    <section
+      id="story"
+      ref={sectionRef}
       className="relative overflow-hidden bg-transparent py-28 md:py-40"
     >
       {/* Ambient background glow (subtle, won't overpower the grid) */}
@@ -37,7 +46,6 @@ export function OurStory() {
 
       <Container className="relative">
         <div className="grid grid-cols-1 gap-16 md:grid-cols-[1.15fr_1fr] md:gap-14 lg:gap-20">
-          
           {/* ─── LEFT COLUMN: Content & Image ─── */}
           <div>
             <motion.p
@@ -49,12 +57,12 @@ export function OurStory() {
             >
               Our Story
             </motion.p>
-            
+
             <RevealText
               text="Every successful brand begins with an idea."
               className="font-display text-3xl font-extrabold leading-[1.15] tracking-tight text-white md:text-[40px]"
             />
-            
+
             <motion.p
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -63,11 +71,11 @@ export function OurStory() {
               className="mt-6 max-w-md text-base leading-relaxed text-[#A1A1AA]"
             >
               Ads by Effexia was founded with a passion for creativity and a
-              vision to help businesses stand out through exceptional
-              branding, innovative marketing, and meaningful digital
-              experiences. Today, we combine strategy, design, marketing,
-              content creation, photography, videography, and digital
-              innovation to help brands grow with confidence.
+              vision to help businesses stand out through exceptional branding,
+              innovative marketing, and meaningful digital experiences. Today,
+              we combine strategy, design, marketing, content creation,
+              photography, videography, and digital innovation to help brands
+              grow with confidence.
             </motion.p>
 
             <motion.div
@@ -93,13 +101,12 @@ export function OurStory() {
 
           {/* ─── RIGHT COLUMN: Map-Style Navigation Timeline ─── */}
           <div className="relative pt-1">
-            
             {/* 1. Base Track (Subtle, distinct from grid) */}
-            <div 
-              className="absolute left-5 top-0 bottom-0 w-px bg-white/10" 
-              aria-hidden 
+            <div
+              className="absolute left-5 top-0 bottom-0 w-px bg-white/10"
+              aria-hidden
             />
-            
+
             {/* 2. Active Progress Line (Glowing Sky Blue) */}
             <motion.div
               style={{ height: lineProgress }}
@@ -113,7 +120,7 @@ export function OurStory() {
               className="absolute left-5 z-20 -translate-x-1/2 -translate-y-1/2"
             >
               {/* Outer ping effect */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 h-4 w-4 rounded-full bg-[#4DA8FF]"
                 animate={{ scale: [1, 1.5, 1], opacity: [0.8, 0, 0.8] }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -125,15 +132,10 @@ export function OurStory() {
             {/* 4. Timeline Steps */}
             <ol className="relative">
               {storyTimeline.map((step, i) => (
-                <TimelineItem 
-                  key={step.number} 
-                  step={step} 
-                  index={i} 
-                />
+                <TimelineItem key={step.number} step={step} index={i} />
               ))}
             </ol>
           </div>
-
         </div>
       </Container>
     </section>
@@ -152,14 +154,18 @@ function TimelineItem({ step, index }: { step: any; index: number }) {
       ref={ref}
       initial={{ opacity: 0, x: 24 }}
       animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 24 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.1,
+        ease: [0.16, 1, 0.3, 1],
+      }}
       className="relative flex gap-6 pb-16 last:pb-0"
     >
       {/* Node Circle */}
-      <span 
+      <span
         className={`relative z-10 flex h-10 w-10 flex-none items-center justify-center rounded-full border text-xs font-bold transition-all duration-500 ${
-          isInView 
-            ? "border-[#4DA8FF]/50 bg-[#4DA8FF]/10 text-[#4DA8FF] shadow-[0_0_15px_rgba(77,168,255,0.3)]" 
+          isInView
+            ? "border-[#4DA8FF]/50 bg-[#4DA8FF]/10 text-[#4DA8FF] shadow-[0_0_15px_rgba(77,168,255,0.3)]"
             : "border-white/10 bg-black/50 text-[#71717A]"
         }`}
       >

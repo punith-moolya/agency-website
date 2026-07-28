@@ -33,7 +33,7 @@ const contactDetails = [
 ];
 
 /* ─────────────────────────────────────────────
-   Floating Cube Component (Reused from About)
+   Floating Cube Component
    ───────────────────────────────────────────── */
 function FloatingCube({ size, top, left, delay, duration, rotate = 0 }: { size: number; top: string; left: string; delay: number; duration: number; rotate?: number }) {
   return (
@@ -71,37 +71,47 @@ function FloatingCube({ size, top, left, delay, duration, rotate = 0 }: { size: 
    ───────────────────────────────────────────── */
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sent">("idle");
+  const [selectedTopic, setSelectedTopic] = useState("General Inquiry");
+
+  const topics = [
+    "Branding",
+    "Video Production",
+    "Website Design",
+    "Digital Marketing",
+    "General Inquiry",
+  ];
+
+  // Dynamically generate WhatsApp link based on selected topic
+  const whatsappNumber = "917306107181";
+  const whatsappMessage = encodeURIComponent(
+    `Hi Ads by Effexia, I'm interested in discussing a ${selectedTopic} project. Please let me know the next steps!`
+  );
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-  const form = e.currentTarget;
-  const formData = new FormData(form);
+    try {
+      const response = await fetch("https://formspree.io/f/xpqvoypy", {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
 
-  try {
-    const response = await fetch("https://formspree.io/f/xpqvoypy", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    if (response.ok) {
-      setStatus("sent");
-
-      form.reset();
-
-      setTimeout(() => {
-        setStatus("idle");
-      }, 5000);
-    } else {
-      alert("Failed to send message.");
+      if (response.ok) {
+        setStatus("sent");
+        form.reset();
+        setTimeout(() => setStatus("idle"), 5000);
+      } else {
+        alert("Failed to send message.");
+      }
+    } catch (error) {
+      alert("Something went wrong. Please try again.");
     }
-  } catch (error) {
-    alert("Something went wrong. Please try again.");
   }
-}
+
   return (
     <section id="contact" className="relative py-24 md:py-32 bg-transparent overflow-hidden">
       {/* Ambient Background Glow */}
@@ -196,10 +206,7 @@ export function Contact() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="relative"
           >
-            {/* Form Container */}
             <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/40 p-8 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] sm:p-10">
-              
-              {/* Subtle top gradient highlight */}
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4DA8FF]/30 to-transparent" />
 
               {status === "sent" ? (
@@ -216,9 +223,7 @@ export function Contact() {
                   >
                     <CheckCircle2 size={32} strokeWidth={1.5} />
                   </motion.div>
-                  <h3 className="font-display text-2xl font-bold text-white">
-                    Message Received!
-                  </h3>
+                  <h3 className="font-display text-2xl font-bold text-white">Message Received!</h3>
                   <p className="max-w-xs text-sm text-[#A1A1AA]">
                     Thanks for reaching out. We&apos;ll get back to you shortly at the email you provided.
                   </p>
@@ -229,9 +234,7 @@ export function Contact() {
                     <FormField label="Name" name="name" placeholder="John Doe" required />
                     <FormField label="Email" name="email" type="email" placeholder="john@company.com" required />
                   </div>
-                  
                   <FormField label="Project Type" name="project" placeholder="Branding, Marketing, Video..." />
-                  
                   <div>
                     <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-[#71717A]">
                       Message
@@ -244,7 +247,6 @@ export function Contact() {
                       className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-[#4DA8FF]/50 focus:bg-white/[0.07] focus:shadow-[0_0_20px_rgba(77,168,255,0.1)]"
                     />
                   </div>
-
                   <motion.button
                     type="submit"
                     whileHover={{ scale: 1.02 }}
@@ -253,19 +255,61 @@ export function Contact() {
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       Send Message
-                      <ArrowUpRight
-                        size={18}
-                        className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      />
+                      <ArrowUpRight size={18} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
-                    {/* Button shimmer effect */}
                     <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   </motion.button>
                 </form>
               )}
+
+              {/* ─── QUICK CONNECT SECTION ─── */}
+              <div className="mt-8 pt-8 border-t border-white/10">
+                <p className="text-sm font-medium text-[#A1A1AA] mb-4 text-center">
+                  Or connect with us instantly:
+                </p>
+                
+                {/* Topic Selector Chips */}
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {topics.map((topic) => (
+                    <button
+                      key={topic}
+                      onClick={() => setSelectedTopic(topic)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border ${
+                        selectedTopic === topic
+                          ? "bg-[#4DA8FF]/20 border-[#4DA8FF]/50 text-[#4DA8FF]"
+                          : "bg-white/5 border-white/10 text-[#A1A1AA] hover:border-white/30 hover:text-white"
+                      }`}
+                    >
+                      {topic}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-4">
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3.5 text-sm font-bold text-black transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-[0_0_20px_rgba(37,211,102,0.3)]"
+                  >
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                    </svg>
+                    WhatsApp
+                  </a>
+                  <a
+                    href="tel:+917306107181"
+                    className="group flex items-center justify-center gap-2 rounded-xl border border-[#4DA8FF]/30 bg-[#4DA8FF]/10 px-4 py-3.5 text-sm font-bold text-[#4DA8FF] transition-all duration-300 hover:bg-[#4DA8FF]/20 hover:shadow-[0_0_20px_rgba(77,168,255,0.2)]"
+                  >
+                    <Phone className="h-5 w-5" />
+                    Call Now
+                  </a>
+                </div>
+              </div>
+
             </div>
           </motion.div>
-
         </div>
       </Container>
     </section>

@@ -321,7 +321,6 @@ export const heroServices = [
 
 export const portfolioFilters = ["All", "Branding", "Web", "Marketing", "Video"];
 
-
 // ─────────────────────────────────────────────
 // TEAM DATA
 // ─────────────────────────────────────────────
@@ -334,9 +333,10 @@ export interface TeamMember {
   bio?: string;
   socials?: {
     linkedin?: string;
-    twitter?: string;
     instagram?: string;
-    github?: string;
+    facebook?: string;
+    twitter?: string;
+    website?: string; // Use this for portfolios or personal websites
   };
 }
 
@@ -345,9 +345,13 @@ export const team: TeamMember[] = [
     id: "abin",
     name: "Abin T Peter",
     role: "Founder & Managing Director",
-    image: "/images/team/abin.png",
+    image: "/images/team/Abin.png",
     bio: "Visionary leader shaping the studio's creative direction.",
-    socials: { linkedin: "#", twitter: "#" },
+    socials: {
+      instagram: "https://www.instagram.com/_abin_peter__?igsh=emViNmVucXhma3Iy&utm_source=qr",
+      facebook: "https://www.facebook.com/share/1E6P6dsEyK/?mibextid=wwXIfr",
+      website: "https://drive.google.com/file/d/1N51HQbpKEZEeHGSub0Mo6Hv1wSqwJ2vD/view?usp=drivesdk", // Portfolio
+    },
   },
   {
     id: "george",
@@ -355,35 +359,49 @@ export const team: TeamMember[] = [
     role: "Co-Founder & Creative Director",
     image: "/images/team/george.png",
     bio: "Crafting visual stories that resonate.",
-    socials: { linkedin: "#", instagram: "#" },
+    socials: {
+      facebook: "https://m.facebook.com/georgeshalom/",
+    },
   },
   {
     id: "shibin",
     name: "Shibin M Kuruvila",
     role: "Digital Marketing Manager",
-    image: "/images/team/shibin.png",
-    socials: { linkedin: "#" },
+    image: "/images/team/shibin.jpeg",
+    socials: {
+      linkedin: "https://www.linkedin.com/in/shibin-m-kuruvilla-085273224?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+      instagram: "https://www.instagram.com/shibin_m_k?igsh=d25ocnRsb3NqNTk=",
+      facebook: "https://www.facebook.com/share/1FWC2srNUT/?mibextid=wwXIfr",
+    },
   },
   {
     id: "suryajith",
     name: "Suryajith MS",
     role: "Head of Video Production",
     image: "/images/team/suryajith.png",
-    socials: { linkedin: "#", instagram: "#" },
+    socials: {
+      instagram: "https://www.instagram.com/suryajith__photography",
+    },
   },
   {
     id: "albin",
     name: "Albin PK",
     role: "Head of Music Production",
-    image: "/images/team/albin.png",
-    socials: { linkedin: "#" },
+    image: "/images/team/Albin.png",
+    socials: {
+      instagram: "https://www.instagram.com/_albin_pk?igsh=MWgxdDYwZnViNHpocw==",
+      facebook: "https://www.facebook.com/share/1CwY3QBvdV/?mibextid=wwXIfr",
+    },
   },
   {
     id: "alisha",
     name: "Alisha Peter",
     role: "Content Creator",
     image: "/images/team/alisha.jpeg",
-    socials: { instagram: "#" },
+    socials: {
+      // Add Alisha's specific links here when available
+      instagram: "#", 
+    },
   },
   {
     id: "punith",
@@ -391,6 +409,20 @@ export const team: TeamMember[] = [
     role: "Lead Full Stack Engineer",
     image: "/images/team/punith.jpeg",
     bio: "Engineering premium digital experiences.",
-    socials: { linkedin: "#", github: "#" },
+    socials: {
+      linkedin: "https://www.linkedin.com/in/punith-raj-bb873b2a4",
+      website: "https://punith-moolya.netlify.app/",
+      instagram: "https://www.instagram.com/_punithmoolya?igsh=MTQ5bTJnZzRvcWFsYg==",
+    },
+  },
+  {
+    id: "akhil",
+    name: "Akhil Varghese Koshy",
+    role: "Content Writer",
+    image: "/images/team/akhil.jpeg", // ⚠️ Remember to add this image to your public folder!
+    bio: "Crafting compelling narratives that connect brands with their audience.",
+    socials: {
+      // Add Akhil's links here when available
+    },
   },
 ];
